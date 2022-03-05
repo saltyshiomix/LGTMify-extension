@@ -5,5 +5,31 @@
   "version": "1.0",
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icons": {
+      "16": "/images/lgtm.png",
+      "32": "/images/lgtm.png",
+      "48": "/images/lgtm.png",
+      "128": "/images/lgtm.png"
+    }
+  },
+  "icons": {
+    "16": "/images/lgtm.png",
+    "32": "/images/lgtm.png",
+    "48": "/images/lgtm.png",
+    "128": "/images/lgtm.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "web_accessible_resources": [
+    {
+      "matches": ["https://*/*"],
+      "resources": ["moveable.js"]
+    }
+  ]
 }

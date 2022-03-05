@@ -1,6 +1,7 @@
 node_modules
-lib/*
+lib/*/**
 !lib/manifest.json
+!lib/images/*
 *.js
 !rollup.config.js
 .DS_Store
