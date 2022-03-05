@@ -12,5 +12,5 @@ const config = (src, dist) => ({
 });
 
 export default [
-  config('index.ts', 'index.js'),
+  config('index.ts', 'lib/index.js'),
 ];
