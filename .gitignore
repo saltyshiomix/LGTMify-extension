@@ -1,4 +1,5 @@
 node_modules
 lib
 *.js
+!rollup.config.js
 .DS_Store
