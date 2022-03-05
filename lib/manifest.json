@@ -2,5 +2,8 @@
   "manifest_version": 3,
   "name": "LGTMify",
   "description": "Looks Good To Me <3",
-  "version": "1.0"
+  "version": "1.0",
+  "background": {
+    "service_worker": "background.js"
+  }
 }

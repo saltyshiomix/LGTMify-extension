@@ -12,5 +12,6 @@ const config = (src, dist) => ({
 });
 
 export default [
-  config('index.ts', 'lib/index.js'),
+  config('src/index.ts', 'lib/index.js'),
+  config('src/background.ts', 'lib/background.js'),
 ];
