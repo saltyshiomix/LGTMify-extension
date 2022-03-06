@@ -5,3 +5,6 @@ lib/*/**
 *.js
 !rollup.config.js
 .DS_Store
+
+*.crx
+*.pem
