@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- <link rel="stylesheet" href="button.css"> -->
+    <style>
+      body {
+        width: 220px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+
+      #select-area, #lgtmify {
+        padding: 12px;
+        border-radius: 4px;
+        background-color:seagreen;
+        color: white;
+        font-size: 14px;
+        text-decoration: none;
+      }
+
+      #select-area {
+        margin-right: 4px;
+      }
+
+      #lgtmify {
+        margin-left: 4px;
+      }
+    </style>
   </head>
   <body>
-    <button id="select-area">
+    <a id="select-area" href="#">
       SELECT AREA
-    </button>
-    <button id="lgtmify">
+    </a>
+    <a id="lgtmify" href="#">
       LGTMify
-    </button>
+    </a>
     <script src="popup.js"></script>
   </body>
 </html>
