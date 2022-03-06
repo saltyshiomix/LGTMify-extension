@@ -1,5 +1,9 @@
 # LGTMify Chrome Extension
 
-Looks Good To Me <3
-
 ![lgtmify](./lgtmify.gif)
+
+## Development
+
+- `yarn install`
+- `yarn build`
+- Upload `lib` folder to the Google Chrome Extension
