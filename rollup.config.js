@@ -1,4 +1,5 @@
 import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 
@@ -10,6 +11,7 @@ const config = (src, dist, format = 'cjs') => ({
   },
   plugins: [
     resolve(),
+    commonjs(),
     typescript(),
     (process.env.NODE_ENV === 'production' && terser()),
   ],
