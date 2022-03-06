@@ -26,6 +26,8 @@ function injectMoveable() {
     height: 360,
   };
 
+  chrome.runtime.sendMessage({ position });
+
   window.addEventListener('message', (message) => {
     const {
       type,
