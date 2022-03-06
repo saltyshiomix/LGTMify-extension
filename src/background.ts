@@ -3,6 +3,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     position,
     lgtmify,
     tabId,
+    url,
   } = message;
 
   if (position) {
@@ -16,5 +17,9 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       position,
       imageDataUri,
     });
+  }
+
+  if (url) {
+    await chrome.tabs.create({ url });
   }
 });

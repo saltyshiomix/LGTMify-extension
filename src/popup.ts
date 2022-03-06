@@ -108,7 +108,9 @@ function lgtmify(tabId: number) {
         height * devicePixelRatio,
       );
 
-      console.log(canvas.toDataURL('image/png'));
+      chrome.runtime.sendMessage({
+        url: canvas.toDataURL('image/png'),
+      });
     };
   });
 
