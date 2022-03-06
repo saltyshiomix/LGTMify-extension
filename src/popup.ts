@@ -1,14 +1,15 @@
-let changeColor: any = document.getElementById('changeColor');
+const selectButton = document.getElementById('select');
+const lgtmifyButton = document.getElementById('lgtmify');
 
-changeColor.addEventListener('click', async () => {
-  let [tab] = await chrome.tabs.query({
+selectButton?.addEventListener('click', async () => {
+  const [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
   });
 
   const tabId = tab.id as number;
 
-  chrome.scripting.executeScript({
+  await chrome.scripting.executeScript({
     target: { tabId },
     func: injectMoveable,
   });
@@ -47,9 +48,29 @@ function injectMoveable() {
       position.width = width;
       position.height = height;
     }
+
+    chrome.runtime.sendMessage({ position });
   });
 
   const script = document.createElement('script');
   script.src = chrome.runtime.getURL('/moveable.js');
   document.body.appendChild(script);
+}
+
+lgtmifyButton?.addEventListener('click', async () => {
+  const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+
+  const tabId = tab.id as number;
+
+  await chrome.scripting.executeScript({
+    target: { tabId },
+    func: lgtmify,
+  });
+});
+
+function lgtmify() {
+  chrome.runtime.sendMessage({ lgtmify: true });
 }
