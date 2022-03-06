@@ -24,11 +24,17 @@ const moveable = new Moveable(document.body, {
   target,
   draggable: true,
   resizable: true,
+  padding: {
+    top: 8,
+    left: 8,
+    right: 8,
+    bottom: 8,
+  },
 });
 
-moveable.on('drag', ({ target, left, top }) => {
-  target.style.left = `${left}px`;
+moveable.on('drag', ({ target, top, left }) => {
   target.style.top = `${top}px`;
+  target.style.left = `${left}px`;
 
   window.postMessage({
     type: 'onDrag',

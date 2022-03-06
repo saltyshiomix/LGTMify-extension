@@ -68,9 +68,52 @@ lgtmifyButton?.addEventListener('click', async () => {
   await chrome.scripting.executeScript({
     target: { tabId },
     func: lgtmify,
+    args: [tabId]
   });
 });
 
-function lgtmify() {
-  chrome.runtime.sendMessage({ lgtmify: true });
+function lgtmify(tabId: number) {
+  chrome.runtime.onMessage.addListener(async (message) => {
+    const {
+      position: {
+        top,
+        left,
+        width,
+        height,
+      },
+      imageDataUri,
+    } = message;
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d')!;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const devicePixelRatio = window.devicePixelRatio || 1;
+    context.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+
+    const image = document.createElement('img');
+    image.src = imageDataUri;
+    image.onload = () => {
+      context.drawImage(
+        image,
+        left * devicePixelRatio,
+        top * devicePixelRatio,
+        width * devicePixelRatio,
+        height * devicePixelRatio,
+        0,
+        0,
+        width * devicePixelRatio,
+        height * devicePixelRatio,
+      );
+
+      console.log(canvas.toDataURL('image/png'));
+    };
+  });
+
+  chrome.runtime.sendMessage({
+    tabId,
+    lgtmify: true,
+  });
 }
