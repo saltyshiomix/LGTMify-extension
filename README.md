@@ -1,2 +1,5 @@
-# LGTMify-extension
-Looks Good To Me &lt;3
+# LGTMify Chrome Extension
+
+Looks Good To Me <3
+
+![lgtmify](./lgtmify.gif)
