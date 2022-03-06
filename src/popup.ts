@@ -1,4 +1,4 @@
-const selectButton = document.getElementById('select');
+const selectButton = document.getElementById('select-area');
 const lgtmifyButton = document.getElementById('lgtmify');
 
 selectButton?.addEventListener('click', async () => {
