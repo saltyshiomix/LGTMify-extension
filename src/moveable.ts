@@ -52,7 +52,6 @@ moveable.on('drag', ({ target, top, left }) => {
 
 moveable.on('dragEnd', ({ target }) => {
   window.postMessage({
-    type: 'onDragEnd',
     top: ~~target.style.top.replace('px', ''),
     left: ~~target.style.left.replace('px', ''),
     width: target.clientWidth,
@@ -67,7 +66,6 @@ moveable.on('resize', ({ target, delta, width, height }) => {
 
 moveable.on('resizeEnd', ({ target }) => {
   window.postMessage({
-    type: 'onResizeEnd',
     top: ~~target.style.top.replace('px', ''),
     left: ~~target.style.left.replace('px', ''),
     width: target.clientWidth,

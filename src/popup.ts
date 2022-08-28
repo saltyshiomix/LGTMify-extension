@@ -19,34 +19,31 @@ function injectMoveable() {
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
-  let position = {
-    top: (vh / 2) - 180,
-    left: (vw / 2) - 240,
-    width: 480,
-    height: 360,
-  };
-
-  chrome.runtime.sendMessage({ position });
+  chrome.runtime.sendMessage({
+    position: {
+      top: (vh / 2) - 180,
+      left: (vw / 2) - 240,
+      width: 480,
+      height: 360,
+    },
+  });
 
   window.addEventListener('message', (message) => {
     const {
-      type,
       top,
       left,
       width,
       height,
     } = message.data;
 
-    if (type === 'onDragEnd' || type === 'onResizeEnd') {
-      position = {
+    chrome.runtime.sendMessage({
+      position: {
         top,
         left,
         width,
         height,
-      };
-
-      chrome.runtime.sendMessage({ position });
-    }
+      },
+    });
   });
 
   const script = document.createElement('script');
