@@ -42,6 +42,9 @@ const moveable = new Moveable(document.body, {
   },
 });
 
+const origin = document.querySelector('.moveable-control.moveable-origin') as HTMLElement;
+origin.style.visibility = 'hidden';
+
 moveable.on('drag', ({ target, top, left }) => {
   target.style.top = `${top}px`;
   target.style.left = `${left}px`;
