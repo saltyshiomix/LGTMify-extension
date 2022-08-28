@@ -1,6 +1,16 @@
 import Moveable from 'moveable';
 
+const _target = document.getElementById('lgtmify');
+if (_target) {
+  _target.remove();
+  const controles = document.querySelectorAll('.moveable-control-box');
+  for (const control of controles) {
+    control.parentNode?.removeChild(control);
+  }
+}
+
 const target = document.createElement('div');
+target.id = 'lgtmify';
 target.innerHTML = 'LGTM';
 target.style.cursor = 'grab';
 target.style.width = '480px';
