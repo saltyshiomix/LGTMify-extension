@@ -1,4 +1,4 @@
-# LGTMify Chrome Extension
+# LGTMify Generator (Chrome Extension)
 
 ![lgtmify](./lgtmify.gif)
 
