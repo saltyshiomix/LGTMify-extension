@@ -1,4 +1,4 @@
-import Moveable from 'moveable';
+import Moveable, { OnDragEnd, OnResizeEnd } from 'moveable';
 
 const _target = document.getElementById('lgtmify');
 if (_target) {
@@ -45,12 +45,7 @@ const moveable = new Moveable(document.body, {
 const origin = document.querySelector('.moveable-control.moveable-origin') as HTMLElement;
 origin.style.visibility = 'hidden';
 
-moveable.on('drag', ({ target, top, left }) => {
-  target.style.top = `${top}px`;
-  target.style.left = `${left}px`;
-});
-
-moveable.on('dragEnd', ({ target }) => {
+function onChangeMoveable({ target }: OnDragEnd | OnResizeEnd) {
   const {
     top,
     left,
@@ -64,6 +59,11 @@ moveable.on('dragEnd', ({ target }) => {
     width,
     height,
   }, '*');
+}
+
+moveable.on('drag', ({ target, top, left }) => {
+  target.style.top = `${top}px`;
+  target.style.left = `${left}px`;
 });
 
 moveable.on('resize', ({ target, delta, width, height }) => {
@@ -71,18 +71,6 @@ moveable.on('resize', ({ target, delta, width, height }) => {
   delta[1] && (target.style.height = `${height}px`);
 });
 
-moveable.on('resizeEnd', ({ target }) => {
-  const {
-    top,
-    left,
-    width,
-    height,
-  } = target.getBoundingClientRect();
+moveable.on('dragEnd', onChangeMoveable);
 
-  window.postMessage({
-    top,
-    left,
-    width,
-    height,
-  }, '*');
-});
+moveable.on('resizeEnd', onChangeMoveable);
