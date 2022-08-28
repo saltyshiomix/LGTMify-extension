@@ -48,23 +48,29 @@ origin.style.visibility = 'hidden';
 moveable.on('drag', ({ target, top, left }) => {
   target.style.top = `${top}px`;
   target.style.left = `${left}px`;
+});
 
+moveable.on('dragEnd', ({ target }) => {
   window.postMessage({
-    type: 'onDrag',
-    top,
-    left,
+    type: 'onDragEnd',
+    top: ~~target.style.top.replace('px', ''),
+    left: ~~target.style.left.replace('px', ''),
     width: target.clientWidth,
     height: target.clientHeight,
   }, '*');
 });
 
-moveable.on('resize', ({ target, width, height, dist, delta, clientX, clientY }) => {
+moveable.on('resize', ({ target, delta, width, height }) => {
   delta[0] && (target.style.width = `${width}px`);
   delta[1] && (target.style.height = `${height}px`);
+});
 
+moveable.on('resizeEnd', ({ target }) => {
   window.postMessage({
-    type: 'onResize',
-    width,
-    height,
+    type: 'onResizeEnd',
+    top: ~~target.style.top.replace('px', ''),
+    left: ~~target.style.left.replace('px', ''),
+    width: target.clientWidth,
+    height: target.clientHeight,
   }, '*');
 });

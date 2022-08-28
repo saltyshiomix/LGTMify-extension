@@ -37,21 +37,16 @@ function injectMoveable() {
       height,
     } = message.data;
 
-    if (type === 'onDrag') {
+    if (type === 'onDragEnd' || type === 'onResizeEnd') {
       position = {
         top,
         left,
         width,
         height,
       };
-    }
 
-    if (type === 'onResize') {
-      position.width = width;
-      position.height = height;
+      chrome.runtime.sendMessage({ position });
     }
-
-    chrome.runtime.sendMessage({ position });
   });
 
   const script = document.createElement('script');
