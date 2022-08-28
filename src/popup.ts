@@ -7,15 +7,20 @@ selectButton?.addEventListener('click', async () => {
     currentWindow: true,
   });
 
-  const tabId = tab.id as number;
-
   await chrome.scripting.executeScript({
-    target: { tabId },
+    target: {
+      tabId: tab.id as number,
+    },
     func: injectMoveable,
   });
 });
 
 function injectMoveable() {
+  const lastScript = document.querySelector('#moveable-script');
+  if (lastScript) {
+    lastScript.parentNode?.removeChild(lastScript);
+  }
+
   const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
   const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
@@ -44,9 +49,10 @@ function injectMoveable() {
         height,
       },
     });
-  });
+  }, { once: true });
 
   const script = document.createElement('script');
+  script.id = 'moveable-script';
   script.src = chrome.runtime.getURL('/moveable.js');
   document.body.appendChild(script);
 }
@@ -57,59 +63,52 @@ lgtmifyButton?.addEventListener('click', async () => {
     currentWindow: true,
   });
 
-  const tabId = tab.id as number;
+  const capturedImageUrl = await chrome.tabs.captureVisibleTab();
 
   await chrome.scripting.executeScript({
-    target: { tabId },
+    target: {
+      tabId: tab.id as number,
+    },
     func: lgtmify,
-    args: [tabId]
+    args: [capturedImageUrl],
   });
 });
 
-function lgtmify(tabId: number) {
-  chrome.runtime.onMessage.addListener(async (message) => {
-    const {
-      position: {
-        top,
-        left,
-        width,
-        height,
-      },
-      imageDataUri,
-    } = message;
+async function lgtmify(capturedImageUrl: string) {
+  const { position } = await chrome.storage.sync.get(['position']);
+  const {
+    top,
+    left,
+    width,
+    height,
+  } = position;
 
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d')!;
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d')!;
 
-    canvas.width = width;
-    canvas.height = height;
+  canvas.width = width;
+  canvas.height = height;
 
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    context.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  context.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
 
-    const image = document.createElement('img');
-    image.src = imageDataUri;
-    image.onload = () => {
-      context.drawImage(
-        image,
-        left * devicePixelRatio,
-        top * devicePixelRatio,
-        width * devicePixelRatio,
-        height * devicePixelRatio,
-        0,
-        0,
-        width * devicePixelRatio,
-        height * devicePixelRatio,
-      );
+  const image = document.createElement('img');
+  image.src = capturedImageUrl;
+  image.onload = async () => {
+    context.drawImage(
+      image,
+      left * devicePixelRatio,
+      top * devicePixelRatio,
+      width * devicePixelRatio,
+      height * devicePixelRatio,
+      0,
+      0,
+      width * devicePixelRatio,
+      height * devicePixelRatio,
+    );
 
-      chrome.runtime.sendMessage({
-        url: canvas.toDataURL('image/png'),
-      });
-    };
-  });
-
-  chrome.runtime.sendMessage({
-    tabId,
-    lgtmify: true,
-  });
+    await chrome.runtime.sendMessage({
+      lgtmify: canvas.toDataURL('image/png'),
+    });
+  };
 }

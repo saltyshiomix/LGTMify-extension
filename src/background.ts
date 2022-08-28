@@ -1,25 +1,18 @@
-chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (message) => {
   const {
     position,
     lgtmify,
-    tabId,
-    url,
   } = message;
 
   if (position) {
-    await chrome.storage.sync.set({ position });
-  }
-
-  if (lgtmify) {
-    const { position } = await chrome.storage.sync.get(['position']);
-    const imageDataUri = await chrome.tabs.captureVisibleTab();
-    chrome.tabs.sendMessage(tabId, {
+    await chrome.storage.sync.set({
       position,
-      imageDataUri,
     });
   }
 
-  if (url) {
-    await chrome.tabs.create({ url });
+  if (lgtmify) {
+    await chrome.tabs.create({
+      url: lgtmify,
+    });
   }
 });
