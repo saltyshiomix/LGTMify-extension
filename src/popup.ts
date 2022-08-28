@@ -33,7 +33,7 @@ function injectMoveable() {
     },
   });
 
-  window.addEventListener('message', (message) => {
+  window.addEventListener('message', async (message) => {
     const {
       top,
       left,
@@ -41,7 +41,7 @@ function injectMoveable() {
       height,
     } = message.data;
 
-    chrome.runtime.sendMessage({
+    await chrome.runtime.sendMessage({
       position: {
         top,
         left,
@@ -49,7 +49,7 @@ function injectMoveable() {
         height,
       },
     });
-  }, { once: true });
+  });
 
   const script = document.createElement('script');
   script.id = 'moveable-script';

@@ -51,11 +51,18 @@ moveable.on('drag', ({ target, top, left }) => {
 });
 
 moveable.on('dragEnd', ({ target }) => {
+  const {
+    top,
+    left,
+    width,
+    height,
+  } = target.getBoundingClientRect();
+
   window.postMessage({
-    top: ~~target.style.top.replace('px', ''),
-    left: ~~target.style.left.replace('px', ''),
-    width: target.clientWidth,
-    height: target.clientHeight,
+    top,
+    left,
+    width,
+    height,
   }, '*');
 });
 
@@ -65,10 +72,17 @@ moveable.on('resize', ({ target, delta, width, height }) => {
 });
 
 moveable.on('resizeEnd', ({ target }) => {
+  const {
+    top,
+    left,
+    width,
+    height,
+  } = target.getBoundingClientRect();
+
   window.postMessage({
-    top: ~~target.style.top.replace('px', ''),
-    left: ~~target.style.left.replace('px', ''),
-    width: target.clientWidth,
-    height: target.clientHeight,
+    top,
+    left,
+    width,
+    height,
   }, '*');
 });
